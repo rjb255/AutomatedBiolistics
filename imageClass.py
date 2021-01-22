@@ -16,9 +16,14 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 #endregion
 
-
-class image:    
-    def __init__(self, size = 100, shape = "circle", **kwargs):
+"""
+This processes the image to be analysed
+Default simply provides a circle
+Advanced takes a path for an image and provides contoured regions
+Uses a kernel here to sharpen find the edges
+"""
+class image:
+    def __init__(self, size = (100,100), shape = "circle", **kwargs):
         self.size = size
         self.canvas = np.zeros(size)
         if shape == "circle":
@@ -41,6 +46,11 @@ class image:
             self.im2 = np.zeros_like(self.gray)
             cv2.drawContours(self.im2, self.contours, -1, 255, thickness = 1)
 
+"""
+This is the proposed model/classifier
+Features 2 hidden layers - few features mean more layers aren't required
+Includes rotational augmentation
+"""
 class model:
     inputShape = [128, 128, 3] #Unknown atm
     model = keras.Sequential([
@@ -115,6 +125,9 @@ class model:
                     callbacks=[self.early_stopping],
                    )
 
+"""
+Allows for images to be represented using matplotlib. Tries to keep presentation in a golden ratio style
+"""
 def plotImage(image):
     if image.ndim == 2:
         plt.imshow(image, interpolation='nearest')
