@@ -27,7 +27,8 @@ for i in image.hierarchy[0][:,1]:
     c = np.zeros_like(image.img)
     cv2.drawContours(a, image.contours, i+1, 255, thickness = -1)
     cv2.drawContours(b, image.contours, i+1, 255, thickness = 1)
-    c[a == 255] = image.img[a == 255]
+    c = image.img
+    #c[a == 255] = image.img[a == 255]
 
     (y, x) = np.where(a == 255)
     (topy, topx) = (np.min(y), np.min(x))
